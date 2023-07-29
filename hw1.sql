@@ -11,15 +11,12 @@ CREATE TABLE `sql_hw1`.`mobile_phones` (
   PRIMARY KEY (`id`));
 
 INSERT INTO mobile_phones(product_name, manufacturer, product_count, price)
-VALUES ("IPhone X", "Apple", 3, 76000);
-INSERT INTO mobile_phones(product_name, manufacturer, product_count, price)
-VALUES ("IPhone 8", "Apple", 2, 51000);
-INSERT INTO mobile_phones(product_name, manufacturer, product_count, price)
-VALUES ("Galaxy S9", "Samsung", 2, 56000);
-INSERT INTO mobile_phones(product_name, manufacturer, product_count, price)
-VALUES ("Galaxy S8", "Samsung", 1, 41000);
-INSERT INTO mobile_phones(product_name, manufacturer, product_count, price)
-VALUES ("P20 Pro", "Huawei", 5, 36000);
+VALUES 
+("IPhone X", "Apple", 3, 76000),
+("IPhone 8", "Apple", 2, 51000),
+("Galaxy S9", "Samsung", 2, 56000),
+("Galaxy S8", "Samsung", 1, 41000),
+("P20 Pro", "Huawei", 5, 36000);
 
 # Выведите название, производителя и цену для товаров, количество для которых превышает 2
 SELECT product_name "Название", manufacturer "Производитель", price "Цена"
