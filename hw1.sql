@@ -1,4 +1,4 @@
-CREATE SCHEMA sql_HW1;
+CREATE SCHEMA sql_HW1; -- SCHEMA OR DATABASE
 use sql_HW1;
 # Создайте таблицу с мобильными телефонами (mobile_phones), используя графический интерфейс.
 # Заполникте БД данными.
