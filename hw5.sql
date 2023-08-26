@@ -14,6 +14,8 @@ WHERE DATE_FORMAT(FROM_DAYS(DATEDIFF(NOW(), birthday)), '%Y') < 20;
 -- ранжированный список пользователей, указав имя и фамилию пользователя, количество
 -- отправленных сообщений и место в рейтинге (первое место у пользователя с максимальным
 -- количеством сообщений) . (используйте DENSE_RANK)
+
+-- CTE
 WITH CTE_count_msgs_by_user AS
 	(SELECT
 		u.firstname,
@@ -28,6 +30,59 @@ SELECT
     msg_count,
     DENSE_RANK() OVER (ORDER BY msg_count DESC) AS msg_rank
 FROM CTE_Count_msgs_by_user
+ORDER BY msg_rank;
+
+-- VIEW
+CREATE OR REPLACE VIEW VIEW_count_msgs_by_user AS
+	(SELECT
+		u.firstname,
+		u.lastname,
+		COUNT(*) AS msg_count    
+	FROM messages AS m
+	JOIN users as u on u.id = m.from_user_id
+	GROUP BY m.from_user_id);
+    
+SELECT 
+	firstname, 
+    lastname, 
+    msg_count,
+    DENSE_RANK() OVER (ORDER BY msg_count DESC) AS msg_rank
+FROM VIEW_count_msgs_by_user
+ORDER BY msg_rank;
+
+-- subQuery
+SELECT 
+	firstname, 
+    lastname, 
+    msg_count,
+    DENSE_RANK() OVER (ORDER BY msg_count DESC) AS msg_rank
+FROM (
+	SELECT
+		u.firstname,
+		u.lastname,
+		COUNT(*) AS msg_count    
+	FROM messages AS m
+	JOIN users as u on u.id = m.from_user_id
+	GROUP BY m.from_user_id
+	) AS t
+ORDER BY msg_rank;
+
+-- Temporary table
+CREATE TEMPORARY TABLE TEMP_TABLE_count_msgs_by_user AS
+	(SELECT
+		u.firstname,
+		u.lastname,
+		COUNT(*) AS msg_count    
+	FROM messages AS m
+	JOIN users as u on u.id = m.from_user_id
+	GROUP BY m.from_user_id);
+    
+SELECT 
+	firstname, 
+    lastname, 
+    msg_count,
+    DENSE_RANK() OVER (ORDER BY msg_count DESC) AS msg_rank
+FROM TEMP_TABLE_count_msgs_by_user
 ORDER BY msg_rank;
 
 -- 3. Выберите все сообщения, отсортируйте сообщения по возрастанию даты отправления
