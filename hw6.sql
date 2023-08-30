@@ -30,7 +30,7 @@ BEGIN
 	START TRANSACTION;
 		SELECT COUNT(*) INTO C FROM users WHERE id = userID;
         IF (C != 1) THEN
-			SELECT COUNT(*) INTO C FROM users WHERE errormsg = userID; -- error for ROLLBACK
+			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Custom error'; -- error for ROLLBACK
 		END IF;
 		INSERT INTO users_old (firstname, lastname, email)
 		SELECT firstname, lastname, email 
@@ -47,7 +47,6 @@ CALL transfer_user(FLOOR(1 + RAND() * (SELECT COUNT(*) FROM users))); -- оши�
 CALL transfer_user(15);  -- нет такого пользователя
 
 SELECT * FROM users_old;
-SELECT * FROM users;
 
 -- Создайте хранимую функцию hello(), которая будет возвращать приветствие, в
 -- зависимости от текущего времени суток. С 6:00 до 12:00 функция должна возвращать
